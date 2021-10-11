@@ -4,15 +4,15 @@ import re
 
 
 class ContestTextWikiApi:
-     """ wikipedia_page_name: the full name of a wikipedia page with a table,
+
+    def __init__(self, wikipedia_page_name, contestants_list):
+        """ wikipedia_page_name: the full name of a wikipedia page with a table,
         contestants_list: a list of elements scrapped from a wikipedia table
         Intiates and populates self.contestants_dict, a dictionary with each element from contestants_list as the key and the 
         full name of the wikipedia article associated with each element as the value. 
         Decreases the possibility of a disambiguation error when using the wikipedia method summary to collect info on each
         element in contestants_list.
         """
-
-    def __init__(self, wikipedia_page_name, contestants_list):
         self.contestants_list = contestants_list
         link_names = wikipedia.WikipediaPage(wikipedia_page_name).links
         print(link_names)
@@ -29,6 +29,10 @@ class ContestTextWikiApi:
         self.full_contest_dict = {}
 
     def get_contest_dict(self):
+        """populates self.full_contest_dict with the each element from contestants_list as the key and info about each element as 
+        the value using the wikipedia summary method and re.
+        In the event of a disambiguation error, each option is printed, and user input is required to specify the correct option.
+        """
         for contestants in self.contestants_list:
             for contestant in contestants:
                 try:
